@@ -1,7 +1,4 @@
-// ============================================================================
-// Module: spi_frontend
 // Description: SPI receiver/transmitter (Mode 0) for command and configuration data.
-// ============================================================================
 module spi_frontend (
     input  wire        clk,
     input  wire        rst_n,
