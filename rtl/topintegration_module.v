@@ -17,7 +17,19 @@ module top_integration (
                  .cs_n     (cs_n),
                  .rx_valid (rx_valid_out),
                  .rx_data  (rx_data_out),
+                 .tx_data  (tx_data_from_fsm),
                  .miso     (miso)
                );
+  // wire connecting FSM-generated tx_data into the SPI frontend
+  wire [7:0] tx_data_from_fsm;
+
+  // Instantiate FSM core to produce tx_data and consume received data
+  fsm_core u_fsm_core (
+      .clk      (clk),
+      .rst_n    (rst_n),
+      .rx_valid (rx_valid_out),
+      .rx_data  (rx_data_out),
+      .tx_data  (tx_data_from_fsm)
+  );
 
 endmodule

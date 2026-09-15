@@ -102,10 +102,10 @@ module spi_frontend (
     input  wire        cs_n,
     output wire        rx_valid,
     output wire [15:0] rx_data,
+    input  wire [7:0]  tx_data,
     output wire        miso
 );
     wire sclk_s, mosi_s, cs_n_s;
-    wire [7:0] tx_data_from_fsm;
 
     spi_sync u_sync (
         .clk(clk), .rst_n(rst_n),
@@ -116,15 +116,6 @@ module spi_frontend (
     spi_controller u_core (
         .clk(clk), .rst_n(rst_n),
         .sclk_sync(sclk_s), .mosi_sync(mosi_s), .cs_n_sync(cs_n_s),
-        .tx_data(tx_data_from_fsm), .rx_valid(rx_valid), .rx_data(rx_data), .miso(miso)
-    );
-
-    // Instantiate FSM internally so it can drive tx_data for SPI
-    fsm_core u_fsm_core (
-        .clk(clk),
-        .rst_n(rst_n),
-        .rx_valid(rx_valid),
-        .rx_data(rx_data),
-        .tx_data(tx_data_from_fsm)
+        .tx_data(tx_data), .rx_valid(rx_valid), .rx_data(rx_data), .miso(miso)
     );
 endmodule
