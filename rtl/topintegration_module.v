@@ -5,7 +5,6 @@ module top_integration (
     input  wire        mosi,
     input  wire        cs_n,
     output wire        miso,
-    input  wire [7:0]  tx_data_in,
     output wire        rx_valid_out,
     output wire [15:0] rx_data_out
   );
@@ -18,7 +17,6 @@ module top_integration (
                  .cs_n     (cs_n),
                  .rx_valid (rx_valid_out),
                  .rx_data  (rx_data_out),
-                 .tx_data  (tx_data_in),
                  .miso     (miso)
                );
 
