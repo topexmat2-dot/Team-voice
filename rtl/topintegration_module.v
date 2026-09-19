@@ -1,3 +1,6 @@
+`timescale 1ns / 1ps
+// Module: top_integration
+// Description: Top-level integration module connecting the SPI frontend
 module top_integration (
     input  wire        clk,
     input  wire        rst_n,
@@ -9,6 +12,10 @@ module top_integration (
     output wire [15:0] rx_data_out
   );
 
+  // Interconnect wire from FSM status byte to SPI MISO transmitter
+  wire [7:0] tx_data_from_fsm;
+
+  // SPI Frontend instance
   spi_frontend u_spi_frontend (
                  .clk      (clk),
                  .rst_n    (rst_n),
@@ -20,16 +27,14 @@ module top_integration (
                  .tx_data  (tx_data_from_fsm),
                  .miso     (miso)
                );
-  // wire connecting FSM-generated tx_data into the SPI frontend
-  wire [7:0] tx_data_from_fsm;
 
-  // Instantiate FSM core to produce tx_data and consume received data
+  // FSM Core instance
   fsm_core u_fsm_core (
-      .clk      (clk),
-      .rst_n    (rst_n),
-      .rx_valid (rx_valid_out),
-      .rx_data  (rx_data_out),
-      .tx_data  (tx_data_from_fsm)
-  );
+             .clk      (clk),
+             .rst_n    (rst_n),
+             .rx_valid (rx_valid_out),
+             .rx_data  (rx_data_out),
+             .tx_data  (tx_data_from_fsm)
+           );
 
 endmodule
